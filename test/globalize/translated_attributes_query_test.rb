@@ -371,6 +371,7 @@ class TranslatedAttributesQueryTest < MiniTest::Spec
     end
 
     it 'creates record from relation' do
+      skip
       post = Post.create(:title => "title")
       post.translated_comments.where(content: "content").create
       assert_equal 1, Comment.count
