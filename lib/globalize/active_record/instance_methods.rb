@@ -68,6 +68,21 @@ module Globalize
         end
       end
 
+      def  _read_attribute(name, options = {}, &block)
+        options = {:translated => true, :locale => nil}.merge(options)
+        return super(name, &block) unless options[:translated]
+
+        if translated?(name)
+          if !(value = globalize.fetch(options[:locale] || Globalize.locale, name)).nil?
+            value
+          else
+            super(name, &block)
+          end
+        else
+          super(name, &block)
+        end
+      end
+
       def attribute_names
         translated_attribute_names.map(&:to_s) + super
       end
